@@ -1,6 +1,6 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import {
-  IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,
+  IonApp, IonIcon, IonLabel, IonTabBar, IonTabButton,
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -32,47 +32,58 @@ import "@ionic/react/css/display.css";
 
 setupIonicReact();
 
+/*
+ * NOTE: This app intentionally avoids <IonRouterOutlet> and <IonTabs>.
+ * On the currently pinned versions (@ionic/react-router 8.8.16 with
+ * react-router-dom 5.3.4), IonRouterOutlet fails to insert any matched
+ * route into its shadow DOM (confirmed on both React 18 and React 19 —
+ * not a React-version issue, something in this specific Ionic outlet
+ * build). Plain react-router-dom <Switch>/<Route> renders correctly, so
+ * we route manually and build the tab bar by hand. Trade-off: no
+ * built-in animated page transitions. If a future @ionic/react-router
+ * patch fixes the outlet, this can be reverted — see App.tsx.bak.
+ */
+
+const TABS = [
+  { tab: "dashboard", href: "/dashboard", icon: home, label: "Dashboard", Page: Dashboard },
+  { tab: "inventory", href: "/inventory", icon: cube, label: "Inventory", Page: Inventory },
+  { tab: "sales", href: "/sales", icon: cart, label: "Sell", Page: Sales },
+  { tab: "customers", href: "/customers", icon: people, label: "Customers", Page: Customers },
+  { tab: "suppliers", href: "/suppliers", icon: business, label: "Suppliers", Page: Suppliers },
+  { tab: "settings", href: "/settings", icon: settingsIcon, label: "Settings", Page: Settings },
+];
+
 function AuthenticatedTabs() {
+  const location = useLocation();
+  const history = useHistory();
+  const activeTab = TABS.find((t) => location.pathname.startsWith(t.href))?.tab ?? "dashboard";
+
   return (
-    <IonTabs>
-      <IonRouterOutlet>
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/inventory" component={Inventory} />
-        <Route exact path="/sales" component={Sales} />
-        <Route exact path="/customers" component={Customers} />
-        <Route exact path="/suppliers" component={Suppliers} />
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/">
-          <Redirect to="/dashboard" />
-        </Route>
-      </IonRouterOutlet>
-      <IonTabBar slot="bottom">
-        <IonTabButton tab="dashboard" href="/dashboard">
-          <IonIcon icon={home} />
-          <IonLabel>Dashboard</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="inventory" href="/inventory">
-          <IonIcon icon={cube} />
-          <IonLabel>Inventory</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="sales" href="/sales">
-          <IonIcon icon={cart} />
-          <IonLabel>Sell</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="customers" href="/customers">
-          <IonIcon icon={people} />
-          <IonLabel>Customers</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="suppliers" href="/suppliers">
-          <IonIcon icon={business} />
-          <IonLabel>Suppliers</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="settings" href="/settings">
-          <IonIcon icon={settingsIcon} />
-          <IonLabel>Settings</IonLabel>
-        </IonTabButton>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <div style={{ flex: 1, overflow: "auto" }}>
+        <Switch>
+          {TABS.map(({ href, Page }) => (
+            <Route key={href} exact path={href} component={Page} />
+          ))}
+          <Route exact path="/">
+            <Redirect to="/dashboard" />
+          </Route>
+        </Switch>
+      </div>
+      <IonTabBar slot="bottom" selectedTab={activeTab}>
+        {TABS.map(({ tab, href, icon, label }) => (
+          <IonTabButton
+            key={tab}
+            tab={tab}
+            selected={activeTab === tab}
+            onClick={() => history.push(href)}
+          >
+            <IonIcon icon={icon} />
+            <IonLabel>{label}</IonLabel>
+          </IonTabButton>
+        ))}
       </IonTabBar>
-    </IonTabs>
+    </div>
   );
 }
 
@@ -81,20 +92,20 @@ function AppRoutes() {
 
   if (!isAuthenticated) {
     return (
-      <IonRouterOutlet>
+      <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route path="/">
           <Redirect to="/login" />
         </Route>
-      </IonRouterOutlet>
+      </Switch>
     );
   }
 
   return (
-    <IonRouterOutlet>
+    <Switch>
       <Route path="/" component={AuthenticatedTabs} />
-    </IonRouterOutlet>
+    </Switch>
   );
 }
 
