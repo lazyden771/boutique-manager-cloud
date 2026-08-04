@@ -1,8 +1,12 @@
 /*
-  Global type treatment + the app's one signature idea: a dashed gold
-  "stitch line," standing in for hand-stitched fabric edging, used
-  consistently as a top border on cards and section dividers. Everything
-  else stays quiet and disciplined around it.
+  Global type treatment + glassmorphism system.
+
+  Signature: everything sits in frosted glass panels that float over a
+  fixed dye-vat gradient (rose -> violet -> teal), with soft blurred
+  color blooms drifting slowly behind them - like light coming through
+  wet dyed fabric. The gold stitch line from the original theme survives
+  as trim on glass edges, so the "hand-stitched" idea still reads even
+  though the surface underneath has changed completely.
 */
 
 /* ---- Typography ---- */
@@ -21,32 +25,101 @@ ion-card-title {
   font-weight: 500;
 }
 
-/* Big dashboard figures get the display face too - they're the thing a
-   shop owner glances at first, so they deserve more presence than the
-   body font gives them. */
 .stat-figure {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   letter-spacing: -0.01em;
+  color: var(--ion-color-primary-shade);
 }
 
-/* ---- The signature: stitched edge ---- */
+/* ---- The fixed dye-vat backdrop: painted once on ion-app so it never
+   scrolls away, with three soft blurred blooms that drift slowly. Every
+   page's ion-content is transparent, so this is always what's "behind
+   the glass" no matter which screen you're on. ---- */
 
-.stitch-top {
-  border-top: 2px dashed var(--stitch-gold);
+ion-app {
+  position: relative;
+  background: linear-gradient(160deg, var(--dye-ink) 0%, var(--dye-violet) 45%, var(--dye-rose) 78%, var(--dye-teal) 100%);
+  min-height: 100%;
+  overflow: hidden;
 }
+
+ion-app::before,
+ion-app::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+  animation: bloom-drift 22s ease-in-out infinite alternate;
+}
+
+ion-app::before {
+  width: 55vw;
+  height: 55vw;
+  top: -15vw;
+  right: -18vw;
+  background: radial-gradient(circle, rgba(255, 95, 143, 0.55), transparent 70%);
+}
+
+ion-app::after {
+  width: 60vw;
+  height: 60vw;
+  bottom: -20vw;
+  left: -20vw;
+  background: radial-gradient(circle, rgba(31, 182, 168, 0.5), transparent 70%);
+  animation-delay: -11s;
+}
+
+@keyframes bloom-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(3vw, 4vw) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ion-app::before, ion-app::after { animation: none; }
+}
+
+ion-page, ion-content, ion-router-outlet, .ion-page {
+  background: transparent !important;
+  --background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Frosted glass: the one card treatment every ion-card, stat tile
+   and list surface reads, so "how glassy" is controlled from the
+   tokens in variables.css rather than repeated per component. ---- */
 
 ion-card {
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(91, 42, 77, 0.08);
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
   border-top: 3px dashed var(--stitch-gold);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(36, 21, 54, 0.28);
   overflow: hidden;
+  color: var(--glass-text-on-dark);
+}
+
+ion-card-title, ion-card ion-card-title {
+  color: var(--glass-text-on-dark);
+}
+
+ion-card-content, ion-card-header {
+  color: var(--glass-text-on-dark);
+}
+
+.stat-figure {
+  color: #ffffff;
 }
 
 ion-item-divider {
   --background: transparent;
-  --color: var(--ion-color-medium);
+  --color: rgba(255, 255, 255, 0.75);
   font-family: "Manrope", sans-serif;
   font-weight: 700;
   font-size: 0.75rem;
@@ -57,16 +130,69 @@ ion-item-divider {
   margin-bottom: 4px;
 }
 
-/* ---- Tab bar: quiet neutrals, a small gold stitch marks the active tab
-   instead of a filled pill or a color swap on the icon alone ---- */
+ion-list {
+  background: transparent;
+}
+
+ion-item {
+  --background: var(--glass-fill);
+  --color: var(--glass-text-on-dark);
+  --border-color: var(--glass-border);
+  font-family: "Manrope", sans-serif;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: 12px;
+  margin-bottom: 6px;
+  border: 1px solid var(--glass-border);
+}
+
+ion-list ion-item {
+  --inner-border-width: 0;
+}
+
+ion-label {
+  color: var(--glass-text-on-dark) !important;
+}
+
+ion-label p {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+ion-input, ion-textarea, ion-select {
+  font-family: "Manrope", sans-serif;
+  --color: var(--glass-text-on-dark);
+  --placeholder-color: rgba(255, 255, 255, 0.55);
+  color: var(--glass-text-on-dark);
+}
+
+/* ---- Header: frosted title bar, not a solid block ---- */
+
+ion-header ion-toolbar {
+  --background: rgba(36, 21, 54, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  --color: #ffffff;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* ---- Tab bar: a floating glass pill instead of a bar pinned flush to
+   the screen edge - the clearest "glass, floating" signal in the app. ---- */
 
 ion-tab-bar {
-  border-top: 1px solid rgba(91, 42, 77, 0.08);
-  padding-top: 4px;
-  height: 62px;
+  background: rgba(36, 21, 54, 0.4);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  margin: 0 10px 10px;
+  height: 60px;
+  box-shadow: 0 10px 30px rgba(36, 21, 54, 0.35);
 }
 
 ion-tab-button {
+  --background: transparent;
+  --color: var(--ion-tab-bar-color);
+  --color-selected: var(--ion-tab-bar-color-selected);
   font-family: "Manrope", sans-serif;
   font-weight: 600;
   font-size: 0.65rem;
@@ -83,46 +209,50 @@ ion-tab-button.tab-selected {
 ion-tab-button.tab-selected::after {
   content: "";
   position: absolute;
-  top: 2px;
+  top: 6px;
   width: 18px;
   height: 2px;
   border-radius: 1px;
-  background: repeating-linear-gradient(
-    to right,
-    var(--stitch-gold) 0 3px,
-    transparent 3px 6px
-  );
+  background: var(--stitch-gold);
 }
 
-/* ---- Buttons ---- */
+/* ---- Buttons: soft gradient fill instead of a flat swatch, so the
+   dye-vat colors show up in the controls too, not just the backdrop ---- */
 
 ion-button {
-  --border-radius: 10px;
+  --border-radius: 12px;
   font-family: "Manrope", sans-serif;
   font-weight: 700;
   letter-spacing: 0.01em;
   text-transform: none;
 }
 
+ion-button[fill="solid"], ion-button:not([fill]) {
+  --background: linear-gradient(135deg, var(--dye-violet), var(--dye-rose));
+  --background-activated: linear-gradient(135deg, var(--dye-violet), var(--dye-rose));
+  --background-hover: linear-gradient(135deg, var(--dye-violet), var(--dye-rose));
+  --box-shadow: 0 6px 18px rgba(124, 79, 224, 0.4);
+}
+
+/* ---- Floating action buttons: several across the app, each a glass
+   gradient orb with real lift, not a flat filled circle ---- */
+
 ion-fab-button {
-  --background: var(--ion-color-secondary);
-  --background-activated: var(--ion-color-secondary-shade);
-  --color: #2a1c26;
-  --box-shadow: 0 4px 14px rgba(184, 137, 63, 0.4);
+  --background: linear-gradient(135deg, var(--dye-teal), var(--dye-violet));
+  --background-activated: linear-gradient(135deg, var(--dye-teal), var(--dye-violet));
+  --background-hover: linear-gradient(135deg, var(--dye-teal), var(--dye-violet));
+  --color: #ffffff;
+  --box-shadow: 0 10px 28px rgba(31, 182, 168, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-/* ---- Inputs ---- */
-
-ion-item {
-  --background: transparent;
-  font-family: "Manrope", sans-serif;
+ion-fab-button[color="secondary"] {
+  --background: linear-gradient(135deg, var(--stitch-gold), var(--dye-rose));
+  --background-activated: linear-gradient(135deg, var(--stitch-gold), var(--dye-rose));
+  --box-shadow: 0 10px 28px rgba(217, 164, 65, 0.45);
 }
 
-ion-input, ion-textarea, ion-select {
-  font-family: "Manrope", sans-serif;
-}
-
-/* ---- Badges: rounder, less clinical than Ionic's default pill ---- */
+/* ---- Badges ---- */
 
 ion-badge {
   border-radius: 20px;
@@ -132,8 +262,7 @@ ion-badge {
   font-size: 0.7rem;
 }
 
-/* ---- Thumbnails / avatars: soft rounding instead of harsh squares or
-   full circles, closer to a fabric swatch card than a profile photo ---- */
+/* ---- Thumbnails / avatars ---- */
 
 ion-thumbnail {
   --border-radius: 8px;
@@ -145,36 +274,37 @@ ion-avatar {
   --border-radius: 8px;
 }
 
-/* ---- Search bar ---- */
+/* ---- Search bar: glass, matching everything else ---- */
 
 ion-searchbar {
-  --background: #ffffff;
-  --border-radius: 10px;
-  --box-shadow: 0 1px 4px rgba(91, 42, 77, 0.08);
-  --placeholder-color: var(--ion-color-medium);
+  --background: var(--glass-fill-strong);
+  --border-radius: 12px;
+  --box-shadow: none;
+  --placeholder-color: rgba(255, 255, 255, 0.6);
+  --color: #ffffff;
+  --icon-color: rgba(255, 255, 255, 0.75);
   font-family: "Manrope", sans-serif;
 }
 
-/* ---- Auth pages (Login / Signup): the one place with room for a real
-   hero moment. Deep aubergine panel with a stitched gold seam running
-   through it, floating ivory card for the form. ---- */
+/* ---- Auth pages (Login / Signup): the hero moment, now the full
+   dye-vat gradient with a floating glass card instead of a solid
+   aubergine panel + white card. ---- */
 
 .auth-page {
-  --background: var(--ion-background-color);
+  --background: transparent;
 }
 
 .auth-hero {
   position: relative;
-  background: linear-gradient(160deg, #5b2a4d 0%, #3f1c35 100%);
-  padding: 64px 24px 56px;
+  padding: 72px 24px 56px;
   text-align: center;
   overflow: hidden;
 }
 
 .auth-hero-stitch {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 24px;
+  right: 24px;
   bottom: 0;
   height: 2px;
   background: repeating-linear-gradient(
@@ -185,13 +315,13 @@ ion-searchbar {
 }
 
 .auth-wordmark {
-  color: #f8ede0;
-  font-size: 2.1rem;
+  color: #ffffff;
+  font-size: 2.2rem;
   margin: 0 0 8px;
 }
 
 .auth-tagline {
-  color: #d9c3d0;
+  color: rgba(255, 255, 255, 0.8);
   font-family: "Manrope", sans-serif;
   font-size: 0.9rem;
   margin: 0;
@@ -200,18 +330,25 @@ ion-searchbar {
 .auth-card {
   max-width: 400px;
   margin: -28px auto 0;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 8px 28px rgba(91, 42, 77, 0.16);
+  background: var(--glass-fill-strong);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(36, 21, 54, 0.4);
   padding: 28px 20px 20px;
   position: relative;
 }
 
 .auth-input {
-  --background: #faf4f0;
+  --background: rgba(255, 255, 255, 0.12);
+  --color: #ffffff;
+  --placeholder-color: rgba(255, 255, 255, 0.55);
   --border-radius: 10px;
   margin-bottom: 4px;
   --padding-start: 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
 }
 
 .auth-error {
@@ -226,9 +363,43 @@ ion-searchbar {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(91, 42, 77, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(91, 42, 77, 0.35);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ---- Responsive: tablet / desktop. The app is mobile-first (it's a
+   till, most days it's a phone in someone's hand) but on a wider
+   viewport the content should sit in a centered column with room to
+   breathe, and stat cards can afford more columns than "6/6". ---- */
+
+@media (min-width: 768px) {
+  ion-content .ion-padding,
+  ion-content ion-grid,
+  ion-content ion-list {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .auth-card {
+    max-width: 440px;
+    padding: 36px 32px 28px;
+  }
+
+  ion-tab-bar {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1100px) {
+  ion-content .ion-padding,
+  ion-content ion-grid,
+  ion-content ion-list {
+    max-width: 960px;
+  }
 }
