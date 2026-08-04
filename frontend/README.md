@@ -94,6 +94,26 @@ Then rebuild in Android Studio / Xcode as above. The web/PWA deploy
 (step 2) just needs a fresh `npm run build` + redeploy - no separate sync
 step for that one.
 
+## Design
+
+Custom visual identity in `src/theme/` (`variables.css` for the color
+system, `global.css` for typography and the signature motif) - not
+Ionic's default blue. Palette is grounded in the actual product: deep
+aubergine (fabric-dye), antique gold (embroidery thread), warm ivory
+(unbleached cotton). Fraunces (a warm serif) for titles and dashboard
+figures, Manrope for everything functional. The recurring signature is a
+dashed gold "stitch line" - referencing hand-stitched fabric edges - used
+as a consistent top border on cards and section dividers throughout.
+
+I verified this compiles and bundles correctly (`npm run build` succeeds
+cleanly), but couldn't render and screenshot it myself - Playwright's
+browser download is blocked by this environment's network allowlist
+(`cdn.playwright.dev` isn't reachable). Worth an actual look with
+`npm run dev` before you consider it final; I'm confident in the CSS
+mechanics (Ionic's shadow-DOM component theming needs its specific
+`--custom-property` pattern, which this uses correctly) but not in the
+final visual balance the way a screenshot would confirm.
+
 ## What's built
 
 Login/signup (with lockout after repeated failed attempts), Dashboard

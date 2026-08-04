@@ -29,23 +29,27 @@ export default function Login() {
 
   return (
     <IonPage>
-      <IonContent className="ion-padding">
-        <div style={{ maxWidth: 400, margin: "80px auto" }}>
-          <h1 style={{ textAlign: "center" }}>Boutique Manager</h1>
+      <IonContent fullscreen className="auth-page">
+        <div className="auth-hero">
+          <div className="auth-hero-stitch" aria-hidden="true" />
+          <h1 className="brand-wordmark auth-wordmark">Boutique Manager</h1>
+          <p className="auth-tagline">Every stitch, every sale, accounted for.</p>
+        </div>
+        <div className="auth-card">
           <form onSubmit={handleSubmit}>
-            <IonItem>
+            <IonItem className="auth-input">
               <IonInput
                 label="Email" labelPlacement="stacked" type="email" value={email}
                 onIonInput={(e) => setEmail(e.detail.value || "")} required
               />
             </IonItem>
-            <IonItem>
+            <IonItem className="auth-input">
               <IonInput
                 label="Password" labelPlacement="stacked" type="password" value={password}
                 onIonInput={(e) => setPassword(e.detail.value || "")} required
               />
             </IonItem>
-            {error && <IonText color="danger"><p>{error}</p></IonText>}
+            {error && <IonText color="danger"><p className="auth-error">{error}</p></IonText>}
             <IonButton expand="block" type="submit" className="ion-margin-top" disabled={loading}>
               {loading ? <IonSpinner name="dots" /> : "Log In"}
             </IonButton>

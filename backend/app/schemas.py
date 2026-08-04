@@ -32,6 +32,20 @@ class TokenResponse(BaseModel):
     currency: str
 
 
+class AccountSettingsUpdate(BaseModel):
+    shop_name: str = Field(min_length=1)
+    currency: str = Field(min_length=1, max_length=8)
+    low_stock_threshold: int = Field(ge=0)
+
+
+class AccountOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    shop_name: str
+    email: str
+    currency: str
+    low_stock_threshold: int
+
+
 # ---- Product ----
 
 class ProductCreate(BaseModel):

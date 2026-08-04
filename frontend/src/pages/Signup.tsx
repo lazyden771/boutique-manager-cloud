@@ -35,30 +35,34 @@ export default function Signup() {
 
   return (
     <IonPage>
-      <IonContent className="ion-padding">
-        <div style={{ maxWidth: 400, margin: "80px auto" }}>
-          <h1 style={{ textAlign: "center" }}>Create Your Shop</h1>
+      <IonContent fullscreen className="auth-page">
+        <div className="auth-hero">
+          <div className="auth-hero-stitch" aria-hidden="true" />
+          <h1 className="brand-wordmark auth-wordmark">Create Your Shop</h1>
+          <p className="auth-tagline">Set up in a minute, run from any device.</p>
+        </div>
+        <div className="auth-card">
           <form onSubmit={handleSubmit}>
-            <IonItem>
+            <IonItem className="auth-input">
               <IonInput
                 label="Shop Name" labelPlacement="stacked" value={shopName}
                 onIonInput={(e) => setShopName(e.detail.value || "")} required
               />
             </IonItem>
-            <IonItem>
+            <IonItem className="auth-input">
               <IonInput
                 label="Email" labelPlacement="stacked" type="email" value={email}
                 onIonInput={(e) => setEmail(e.detail.value || "")} required
               />
             </IonItem>
-            <IonItem>
+            <IonItem className="auth-input">
               <IonInput
                 label="Password" labelPlacement="stacked" type="password" value={password}
                 onIonInput={(e) => setPassword(e.detail.value || "")} required
               />
               <IonNote slot="helper">At least 8 characters</IonNote>
             </IonItem>
-            {error && <IonText color="danger"><p>{error}</p></IonText>}
+            {error && <IonText color="danger"><p className="auth-error">{error}</p></IonText>}
             <IonButton expand="block" type="submit" className="ion-margin-top" disabled={loading}>
               {loading ? <IonSpinner name="dots" /> : "Create Shop"}
             </IonButton>

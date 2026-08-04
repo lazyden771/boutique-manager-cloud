@@ -54,27 +54,27 @@ export default function Dashboard() {
             <IonCol size="6">
               <IonCard>
                 <IonCardHeader><IonCardTitle>Today's Sales</IonCardTitle></IonCardHeader>
-                <IonCardContent>{today ? money(today.sales) : "..."}</IonCardContent>
+                <IonCardContent className="stat-figure">{today ? money(today.sales) : "..."}</IonCardContent>
               </IonCard>
             </IonCol>
             <IonCol size="6">
               <IonCard>
                 <IonCardHeader><IonCardTitle>Today's Profit</IonCardTitle></IonCardHeader>
-                <IonCardContent>{today ? money(today.profit) : "..."}</IonCardContent>
+                <IonCardContent className="stat-figure">{today ? money(today.profit) : "..."}</IonCardContent>
               </IonCard>
             </IonCol>
             <IonCol size="6">
               <IonCard>
                 <IonCardHeader><IonCardTitle>Month's Profit</IonCardTitle></IonCardHeader>
-                <IonCardContent>{monthProfit !== null ? money(monthProfit) : "..."}</IonCardContent>
+                <IonCardContent className="stat-figure">{monthProfit !== null ? money(monthProfit) : "..."}</IonCardContent>
               </IonCard>
             </IonCol>
             <IonCol size="6">
               <IonCard>
                 <IonCardHeader><IonCardTitle>Stock Value</IonCardTitle></IonCardHeader>
-                <IonCardContent>
+                <IonCardContent className="stat-figure">
                   {inventoryValue ? money(inventoryValue.inventory_value) : "..."}
-                  <div style={{ fontSize: 12, opacity: 0.6 }}>
+                  <div style={{ fontSize: 12, opacity: 0.6, fontFamily: "Manrope, sans-serif", fontWeight: 500 }}>
                     {inventoryValue ? `${inventoryValue.total_stock} units` : ""}
                   </div>
                 </IonCardContent>

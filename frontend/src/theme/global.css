@@ -1,0 +1,234 @@
+/*
+  Global type treatment + the app's one signature idea: a dashed gold
+  "stitch line," standing in for hand-stitched fabric edging, used
+  consistently as a top border on cards and section dividers. Everything
+  else stays quiet and disciplined around it.
+*/
+
+/* ---- Typography ---- */
+
+ion-title,
+h1, h2, h3,
+ion-card-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.brand-wordmark {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Big dashboard figures get the display face too - they're the thing a
+   shop owner glances at first, so they deserve more presence than the
+   body font gives them. */
+.stat-figure {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+/* ---- The signature: stitched edge ---- */
+
+.stitch-top {
+  border-top: 2px dashed var(--stitch-gold);
+}
+
+ion-card {
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(91, 42, 77, 0.08);
+  border-top: 3px dashed var(--stitch-gold);
+  overflow: hidden;
+}
+
+ion-item-divider {
+  --background: transparent;
+  --color: var(--ion-color-medium);
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 2px dashed var(--stitch-gold);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+/* ---- Tab bar: quiet neutrals, a small gold stitch marks the active tab
+   instead of a filled pill or a color swap on the icon alone ---- */
+
+ion-tab-bar {
+  border-top: 1px solid rgba(91, 42, 77, 0.08);
+  padding-top: 4px;
+  height: 62px;
+}
+
+ion-tab-button {
+  font-family: "Manrope", sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+}
+
+ion-tab-button::part(native)::before {
+  content: "";
+}
+
+ion-tab-button.tab-selected {
+  position: relative;
+}
+
+ion-tab-button.tab-selected::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--stitch-gold) 0 3px,
+    transparent 3px 6px
+  );
+}
+
+/* ---- Buttons ---- */
+
+ion-button {
+  --border-radius: 10px;
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+ion-fab-button {
+  --background: var(--ion-color-secondary);
+  --background-activated: var(--ion-color-secondary-shade);
+  --color: #2a1c26;
+  --box-shadow: 0 4px 14px rgba(184, 137, 63, 0.4);
+}
+
+/* ---- Inputs ---- */
+
+ion-item {
+  --background: transparent;
+  font-family: "Manrope", sans-serif;
+}
+
+ion-input, ion-textarea, ion-select {
+  font-family: "Manrope", sans-serif;
+}
+
+/* ---- Badges: rounder, less clinical than Ionic's default pill ---- */
+
+ion-badge {
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+/* ---- Thumbnails / avatars: soft rounding instead of harsh squares or
+   full circles, closer to a fabric swatch card than a profile photo ---- */
+
+ion-thumbnail {
+  --border-radius: 8px;
+  width: 48px;
+  height: 48px;
+}
+
+ion-avatar {
+  --border-radius: 8px;
+}
+
+/* ---- Search bar ---- */
+
+ion-searchbar {
+  --background: #ffffff;
+  --border-radius: 10px;
+  --box-shadow: 0 1px 4px rgba(91, 42, 77, 0.08);
+  --placeholder-color: var(--ion-color-medium);
+  font-family: "Manrope", sans-serif;
+}
+
+/* ---- Auth pages (Login / Signup): the one place with room for a real
+   hero moment. Deep aubergine panel with a stitched gold seam running
+   through it, floating ivory card for the form. ---- */
+
+.auth-page {
+  --background: var(--ion-background-color);
+}
+
+.auth-hero {
+  position: relative;
+  background: linear-gradient(160deg, #5b2a4d 0%, #3f1c35 100%);
+  padding: 64px 24px 56px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.auth-hero-stitch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--stitch-gold) 0 8px,
+    transparent 8px 16px
+  );
+}
+
+.auth-wordmark {
+  color: #f8ede0;
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+
+.auth-tagline {
+  color: #d9c3d0;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.auth-card {
+  max-width: 400px;
+  margin: -28px auto 0;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(91, 42, 77, 0.16);
+  padding: 28px 20px 20px;
+  position: relative;
+}
+
+.auth-input {
+  --background: #faf4f0;
+  --border-radius: 10px;
+  margin-bottom: 4px;
+  --padding-start: 12px;
+}
+
+.auth-error {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.85rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(91, 42, 77, 0.2);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 42, 77, 0.35);
+}

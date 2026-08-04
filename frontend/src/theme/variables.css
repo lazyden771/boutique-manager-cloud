@@ -1,0 +1,100 @@
+/*
+  Boutique Manager color system.
+
+  Grounded in the subject: a shop selling lawn suits and fabric goods, not
+  a generic SaaS dashboard. Aubergine reads as a rich fabric-dye tone,
+  antique gold as embroidery/zari thread, blush-ivory as unbleached
+  cotton. Every Ionic component reads its colors from these CSS custom
+  properties, so setting them here re-themes the whole app consistently
+  rather than overriding individual components one at a time.
+*/
+
+:root {
+  /* ---- Primary: deep aubergine ---- */
+  --ion-color-primary: #5b2a4d;
+  --ion-color-primary-rgb: 91, 42, 77;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4a223f;
+  --ion-color-primary-tint: #6f3d61;
+
+  /* ---- Secondary: antique zari gold (used sparingly, as the accent) ---- */
+  --ion-color-secondary: #b8893f;
+  --ion-color-secondary-rgb: 184, 137, 63;
+  --ion-color-secondary-contrast: #2a1c26;
+  --ion-color-secondary-contrast-rgb: 42, 28, 38;
+  --ion-color-secondary-shade: #a1793a;
+  --ion-color-secondary-tint: #c39557;
+
+  /* ---- Tertiary: same gold, used for FAB/highlight moments ---- */
+  --ion-color-tertiary: #b8893f;
+  --ion-color-tertiary-rgb: 184, 137, 63;
+  --ion-color-tertiary-contrast: #2a1c26;
+  --ion-color-tertiary-contrast-rgb: 42, 28, 38;
+  --ion-color-tertiary-shade: #a1793a;
+  --ion-color-tertiary-tint: #c39557;
+
+  /* ---- Success: muted sage (in-stock, profit) ---- */
+  --ion-color-success: #6e8b63;
+  --ion-color-success-rgb: 110, 139, 99;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #617a57;
+  --ion-color-success-tint: #7d9773;
+
+  /* ---- Warning: brick rust (low stock) - deliberately not the default
+     amber/orange, and not the terracotta AI-cliche either; darker/more
+     brick-toned so it reads as "attention" without looking like a status
+     dot borrowed from a generic dashboard ---- */
+  --ion-color-warning: #b5542a;
+  --ion-color-warning-rgb: 181, 84, 42;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #9f4a25;
+  --ion-color-warning-tint: #bc653f;
+
+  /* ---- Danger: kept close to a true red for refunds/destructive actions
+     - this one benefits from being unambiguous, not on-brand ---- */
+  --ion-color-danger: #a4333d;
+  --ion-color-danger-rgb: 164, 51, 61;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #902d36;
+  --ion-color-danger-tint: #ad4751;
+
+  /* ---- Medium / light: warm neutrals instead of Ionic's cool grays ---- */
+  --ion-color-medium: #8c7a86;
+  --ion-color-medium-rgb: 140, 122, 134;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #7b6b76;
+  --ion-color-medium-tint: #988792;
+
+  --ion-color-light: #f3e9e4;
+  --ion-color-light-rgb: 243, 233, 228;
+  --ion-color-light-contrast: #2a1c26;
+  --ion-color-light-contrast-rgb: 42, 28, 38;
+  --ion-color-light-shade: #d6cdc8;
+  --ion-color-light-tint: #f4ebe6;
+
+  /* ---- Base page ---- */
+  --ion-background-color: #faf4f0;
+  --ion-background-color-rgb: 250, 244, 240;
+  --ion-text-color: #2a1c26;
+  --ion-text-color-rgb: 42, 28, 38;
+
+  --ion-toolbar-background: #faf4f0;
+  --ion-toolbar-color: #2a1c26;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-tab-bar-background: #ffffff;
+  --ion-tab-bar-color: #8c7a86;
+  --ion-tab-bar-color-selected: #5b2a4d;
+
+  --ion-font-family: "Manrope", "Segoe UI", sans-serif;
+
+  /* Signature motif color, referenced by the stitch-border utility in
+     global.css - kept as its own variable so the "one recurring idea" is
+     defined in exactly one place. */
+  --stitch-gold: #b8893f;
+}
