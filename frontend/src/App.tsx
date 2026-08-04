@@ -30,6 +30,11 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
+/* Boutique Manager theme - palette, type, and the stitch-border signature.
+   Must load after Ionic's own CSS so these overrides win the cascade. */
+import "./theme/variables.css";
+import "./theme/global.css";
+
 setupIonicReact();
 
 /*
