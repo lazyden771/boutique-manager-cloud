@@ -40,12 +40,20 @@ ion-card-title {
 
 ion-app {
   /* Deliberately NOT setting position/height here. Ionic's own core CSS
-     already makes ion-app cover the full screen via position: absolute
-     with inset 0, independent of #root's own (zero) height. Overriding
-     that to position: relative + min-height: 100% breaks it, since
-     #root has no explicit height for a percentage to resolve against -
-     this exact failure mode is what caused the original blank-page bug
-     this app already shipped a fix for. Don't repeat it here. */
+     does NOT give ion-app any position or sizing at all - and since its
+     child .ion-page is position: absolute (pulled out of normal flow),
+     ion-app itself ends up with ~zero rendered height. A background
+     painted directly here has nowhere to show (this was the actual bug -
+     confirmed by reading Ionic's shipped CSS directly, not assumed).
+     Ionic DOES give <body> position: fixed + full width/height, so the
+     base gradient goes there instead (see body rule below). Don't move
+     it back here without first checking Ionic's actual CSS again. */
+}
+
+body {
+  /* See the comment on ion-app above - body is the element Ionic
+     actually gives real, positioned, full-viewport dimensions to, so
+     it's the one that can actually paint this gradient. */
   background: linear-gradient(160deg, var(--dye-ink) 0%, var(--dye-violet) 45%, var(--dye-rose) 78%, var(--dye-teal) 100%);
 }
 
