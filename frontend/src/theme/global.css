@@ -39,10 +39,14 @@ ion-card-title {
    the glass" no matter which screen you're on. ---- */
 
 ion-app {
-  position: relative;
+  /* Deliberately NOT setting position/height here. Ionic's own core CSS
+     already makes ion-app cover the full screen via position: absolute
+     with inset 0, independent of #root's own (zero) height. Overriding
+     that to position: relative + min-height: 100% breaks it, since
+     #root has no explicit height for a percentage to resolve against -
+     this exact failure mode is what caused the original blank-page bug
+     this app already shipped a fix for. Don't repeat it here. */
   background: linear-gradient(160deg, var(--dye-ink) 0%, var(--dye-violet) 45%, var(--dye-rose) 78%, var(--dye-teal) 100%);
-  min-height: 100%;
-  overflow: hidden;
 }
 
 ion-app::before,
@@ -82,10 +86,18 @@ ion-app::after {
   ion-app::before, ion-app::after { animation: none; }
 }
 
+/* Transparency only - deliberately not touching position/z-index here.
+   Ionic's own core CSS uses position: absolute + inset: 0 on .ion-page
+   to fill its container regardless of the parent's (auto/zero) height.
+   Overriding that to position: relative breaks sizing the same way the
+   ion-app rule above did - see the comment there. */
 ion-page, ion-content, ion-router-outlet, .ion-page {
   background: transparent !important;
   --background: transparent;
-  position: relative;
+  /* Ionic already makes these positioned elements (position: absolute)
+     via its own core CSS, so adding z-index alone is safe here and
+     doesn't need (and must not add) a position override - it just
+     needs to paint above the fixed decorative blobs on ion-app. */
   z-index: 1;
 }
 
