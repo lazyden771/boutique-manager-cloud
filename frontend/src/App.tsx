@@ -30,8 +30,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
-/* Boutique Manager theme - palette, type, and the stitch-border signature.
-   Must load after Ionic's own CSS so these overrides win the cascade. */
+/* Boutique Manager theme */
 import "./theme/variables.css";
 import "./theme/global.css";
 
@@ -41,12 +40,9 @@ setupIonicReact();
  * NOTE: This app intentionally avoids <IonRouterOutlet> and <IonTabs>.
  * On the currently pinned versions (@ionic/react-router 8.8.16 with
  * react-router-dom 5.3.4), IonRouterOutlet fails to insert any matched
- * route into its shadow DOM (confirmed on both React 18 and React 19 —
- * not a React-version issue, something in this specific Ionic outlet
- * build). Plain react-router-dom <Switch>/<Route> renders correctly, so
- * we route manually and build the tab bar by hand. Trade-off: no
- * built-in animated page transitions. If a future @ionic/react-router
- * patch fixes the outlet, this can be reverted — see App.tsx.bak.
+ * route into its shadow DOM (confirmed on both React 18 and React 19).
+ * Plain react-router-dom <Switch>/<Route> renders correctly.
+ * Do not revert to IonRouterOutlet/IonTabs unless a future version is confirmed fixed.
  */
 
 const TABS = [
@@ -64,8 +60,9 @@ function AuthenticatedTabs() {
   const activeTab = TABS.find((t) => location.pathname.startsWith(t.href))?.tab ?? "dashboard";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div style={{ flex: 1, overflow: "auto" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+      {/* Page content fills available space; pages handle their own IonContent scroll */}
+      <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
         <Switch>
           {TABS.map(({ href, Page }) => (
             <Route key={href} exact path={href} component={Page} />
@@ -75,6 +72,7 @@ function AuthenticatedTabs() {
           </Route>
         </Switch>
       </div>
+      {/* Floating glass tab bar — sits below content, never overlaps it */}
       <IonTabBar slot="bottom" selectedTab={activeTab}>
         {TABS.map(({ tab, href, icon, label }) => (
           <IonTabButton

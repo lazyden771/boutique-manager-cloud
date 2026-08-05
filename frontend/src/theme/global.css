@@ -33,20 +33,19 @@ ion-card-title {
   color: var(--ion-color-primary-shade);
 }
 
-/* ---- The fixed dye-vat backdrop: painted once on ion-app so it never
-   scrolls away, with three soft blurred blooms that drift slowly. Every
-   page's ion-content is transparent, so this is always what's "behind
-   the glass" no matter which screen you're on. ---- */
+/* ---- The fixed dye-vat backdrop: painted on body (position:fixed by
+   Ionic's own structure.css) so it always fills the real viewport.
+   NEVER set position on ion-app, ion-page, or .ion-page — doing so
+   breaks Ionic's absolute-positioning layout chain and causes blank pages. ---- */
 
-ion-app {
-  position: relative;
-  background: linear-gradient(160deg, var(--dye-ink) 0%, var(--dye-violet) 45%, var(--dye-rose) 78%, var(--dye-teal) 100%);
-  min-height: 100%;
-  overflow: hidden;
+body {
+  background: linear-gradient(160deg, var(--dye-ink) 0%, var(--dye-violet) 45%, var(--dye-rose) 78%, var(--dye-teal) 100%) !important;
+  background-attachment: fixed !important;
 }
 
-ion-app::before,
-ion-app::after {
+/* Soft colour blooms fixed to viewport, behind everything */
+body::before,
+body::after {
   content: "";
   position: fixed;
   border-radius: 50%;
@@ -56,7 +55,7 @@ ion-app::after {
   animation: bloom-drift 22s ease-in-out infinite alternate;
 }
 
-ion-app::before {
+body::before {
   width: 55vw;
   height: 55vw;
   top: -15vw;
@@ -64,7 +63,7 @@ ion-app::before {
   background: radial-gradient(circle, rgba(255, 95, 143, 0.55), transparent 70%);
 }
 
-ion-app::after {
+body::after {
   width: 60vw;
   height: 60vw;
   bottom: -20vw;
@@ -79,14 +78,25 @@ ion-app::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ion-app::before, ion-app::after { animation: none; }
+  body::before, body::after { animation: none; }
 }
 
-ion-page, ion-content, ion-router-outlet, .ion-page {
+/* ion-app, ion-page, ion-content: ONLY touch background/z-index,
+   NEVER position — see handoff §5 for why this matters */
+ion-app {
+  background: transparent;
+}
+
+ion-page,
+.ion-page {
   background: transparent !important;
   --background: transparent;
-  position: relative;
   z-index: 1;
+}
+
+ion-content {
+  --background: transparent;
+  --padding-bottom: 90px; /* clears the floating tab bar (60px height + 10px margin + 20px breathing room) */
 }
 
 /* ---- Frosted glass: the one card treatment every ion-card, stat tile
@@ -198,10 +208,6 @@ ion-tab-button {
   font-size: 0.65rem;
 }
 
-ion-tab-button::part(native)::before {
-  content: "";
-}
-
 ion-tab-button.tab-selected {
   position: relative;
 }
@@ -216,8 +222,13 @@ ion-tab-button.tab-selected::after {
   background: var(--stitch-gold);
 }
 
-/* ---- Buttons: soft gradient fill instead of a flat swatch, so the
-   dye-vat colors show up in the controls too, not just the backdrop ---- */
+/* ---- FAB: nudge up above the floating tab bar (60px height + 10px bottom margin) ---- */
+
+ion-fab[vertical="bottom"] {
+  bottom: calc(60px + 10px + 16px); /* tab bar + its margin + breathing room */
+}
+
+/* ---- Buttons ---- */
 
 ion-button {
   --border-radius: 12px;
@@ -234,8 +245,7 @@ ion-button[fill="solid"], ion-button:not([fill]) {
   --box-shadow: 0 6px 18px rgba(124, 79, 224, 0.4);
 }
 
-/* ---- Floating action buttons: several across the app, each a glass
-   gradient orb with real lift, not a flat filled circle ---- */
+/* ---- Floating action buttons ---- */
 
 ion-fab-button {
   --background: linear-gradient(135deg, var(--dye-teal), var(--dye-violet));
@@ -274,7 +284,7 @@ ion-avatar {
   --border-radius: 8px;
 }
 
-/* ---- Search bar: glass, matching everything else ---- */
+/* ---- Search bar ---- */
 
 ion-searchbar {
   --background: var(--glass-fill-strong);
@@ -286,9 +296,7 @@ ion-searchbar {
   font-family: "Manrope", sans-serif;
 }
 
-/* ---- Auth pages (Login / Signup): the hero moment, now the full
-   dye-vat gradient with a floating glass card instead of a solid
-   aubergine panel + white card. ---- */
+/* ---- Auth pages (Login / Signup) ---- */
 
 .auth-page {
   --background: transparent;
@@ -370,10 +378,7 @@ ion-searchbar {
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* ---- Responsive: tablet / desktop. The app is mobile-first (it's a
-   till, most days it's a phone in someone's hand) but on a wider
-   viewport the content should sit in a centered column with room to
-   breathe, and stat cards can afford more columns than "6/6". ---- */
+/* ---- Responsive: tablet / desktop ---- */
 
 @media (min-width: 768px) {
   ion-content .ion-padding,
