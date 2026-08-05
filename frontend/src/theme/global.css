@@ -81,12 +81,19 @@ body::after {
   body::before, body::after { animation: none; }
 }
 
+/* ion-app, ion-page, ion-content: ONLY touch background/z-index,
+   NEVER position — doing so breaks Ionic's layout chain → blank page. */
+ion-app {
+  background: transparent;
+}
+
 ion-page,
 .ion-page {
   background: transparent !important;
   --background: transparent;
   z-index: 1;
 }
+
 ion-content {
   --background: transparent;
   --padding-bottom: 90px; /* clears the floating tab bar (60px height + 10px margin + 20px breathing room) */
