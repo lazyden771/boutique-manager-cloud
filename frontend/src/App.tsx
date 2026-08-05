@@ -60,7 +60,7 @@ function AuthenticatedTabs() {
   const activeTab = TABS.find((t) => location.pathname.startsWith(t.href))?.tab ?? "dashboard";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+    <div style={{ display: "flex", flexDirection: "column", maxHeight: "100vh", overflow: "hidden" }}>
       {/* Page content fills available space; pages handle their own IonContent scroll */}
       <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
         <Switch>
