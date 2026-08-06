@@ -108,7 +108,7 @@ ion-card {
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
-  border-top: 3px dashed var(--stitch-gold);
+  border-top: 3px solid var(--stitch-gold);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(36, 21, 54, 0.28);
   overflow: hidden;
@@ -135,7 +135,7 @@ ion-item-divider {
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 2px dashed var(--stitch-gold);
+  border-bottom: 2px solid var(--stitch-gold);
   padding-bottom: 6px;
   margin-bottom: 4px;
 }
@@ -315,11 +315,7 @@ ion-searchbar {
   right: 24px;
   bottom: 0;
   height: 2px;
-  background: repeating-linear-gradient(
-    to right,
-    var(--stitch-gold) 0 8px,
-    transparent 8px 16px
-  );
+  background: var(--stitch-gold);
 }
 
 .auth-wordmark {
