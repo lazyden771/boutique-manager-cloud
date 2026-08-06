@@ -197,6 +197,7 @@ ion-tab-bar {
   margin: 0 10px 10px;
   height: 60px;
   box-shadow: 0 10px 30px rgba(36, 21, 54, 0.35);
+  width: calc(100% - 20px);
 }
 
 ion-tab-button {
